@@ -37,7 +37,7 @@
 
 #ifndef NOIT_STATS_ENABLED
 
-#define noit_stats_init()
+#define noit_stats_init(appname)
 #define noit_stats_destroy()
 #define noit_stats_incr(stat)
 #define noit_stats_decr(stat)
@@ -45,7 +45,7 @@
 
 #else
 
-API_EXPORT(void) noit_stats_init();
+API_EXPORT(void) noit_stats_init(const char *appname);
 API_EXPORT(void) noit_stats_destroy();
 API_EXPORT(void) noit_stats_incr(const char *stat);
 API_EXPORT(void) noit_stats_decr(const char *stat);

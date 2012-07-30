@@ -50,11 +50,12 @@
 
 static noit_log_stream_t nlerr = NULL;
 static noit_log_stream_t nldeb = NULL;
-static int statsd_fd;
+static int statsd_fd = -1;
 static struct sockaddr_in statsd_addr;
+static const char *statsd_appname;
 
 void
-noit_stats_init()
+noit_stats_init(const char *appname)
 {
   char *hostname = NULL;
   int port;
@@ -77,6 +78,8 @@ noit_stats_init()
   if(!noit_conf_get_int(sconf, "/port", &port)) {
     port = 8125;
   }
+
+  statsd_appname = appname;
 
   memset(&statsd_addr, 0, sizeof(statsd_addr));
   statsd_addr.sin_family = AF_INET;
@@ -109,7 +112,7 @@ noit_stats_send_stat(const char *stat, int value, const char *type)
   char buf[128];
 
   /* TODO: sample rate */
-  snprintf(buf, sizeof(buf), "noitd.%s:%d|%s\n", stat, value, type);
+  snprintf(buf, sizeof(buf), "%s.%s:%d|%s\n", statsd_appname, stat, value, type);
   rv = sendto(statsd_fd, buf, strlen(buf), 0, (struct sockaddr *)&statsd_addr, sl);
   if (rv == -1) {
     noitL(nlerr, "noit_statsd: sendto() failed: %d\n", errno);
