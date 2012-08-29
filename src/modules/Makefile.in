@@ -27,7 +27,7 @@ top_srcdir=@top_srcdir@
 MODULES=check_test.@MODULEEXT@ ping_icmp.@MODULEEXT@ postgres.@MODULEEXT@ \
 	lua.@MODULEEXT@ dns.@MODULEEXT@ selfcheck.@MODULEEXT@ \
 	external.@MODULEEXT@ collectd.@MODULEEXT@ httptrap.@MODULEEXT@ \
-	ip_acl.@MODULEEXT@ statsd.@MODULEEXT@ \
+	ip_acl.@MODULEEXT@ statsd.@MODULEEXT@ statsd_emitter.@MODULEEXT@ \
 	@BUILD_MODULES@
 
 SMODULES=stomp_driver.@MODULEEXT@ postgres_ingestor.@MODULEEXT@ \
@@ -153,6 +153,12 @@ statsd.@MODULEEXT@:	statsd.lo
 	@echo "- linking $@"
 
 statsd.lo:	statsd.xmlh
+
+statsd_emitter.@MODULEEXT@:	statsd_emitter.lo
+	@$(MODULELD) $(LDFLAGS) -o $@ statsd_emitter.lo
+	@echo "- linking $@"
+
+statsd_emitter.lo:	statsd_emitter.xmlh
 
 collectd.@MODULEEXT@:	collectd.lo
 	@$(MODULELD) $(LDFLAGS) -o $@ collectd.lo -lssl 

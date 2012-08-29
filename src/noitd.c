@@ -173,7 +173,6 @@ static int child_main() {
 
   /* Setup our heartbeat */
   noit_watchdog_child_eventer_heartbeat();
-  noit_stats_init(APPNAME);
 
   e = eventer_alloc();
   e->mask = EVENTER_RECURRENT;

@@ -187,7 +187,6 @@ static int child_main() {
   noit_conf_log_init_rotate(APPNAME, noit_false);
 
   noit_watchdog_child_eventer_heartbeat();
-  noit_stats_init(APPNAME);
   noit_console_init(APPNAME);
   noit_console_conf_init();
   noit_http_rest_init();
